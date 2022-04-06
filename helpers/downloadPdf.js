@@ -1,15 +1,30 @@
 
-const { isConnect } = require('../ftp/connection');
+
 var fs = require('fs');
-const path = require('path');
-const { join } = require('path');
+
+const PromiseFtp = require('promise-ftp');
+
+const ftp = new PromiseFtp();
+
+
+
 
 const downloadPdf = async (factura) => {
     console.log(factura)
 
-   if (fs.existsSync( `./uploads/${factura}`)) return;
 
-    const ftp = await isConnect();
+
+    if (fs.existsSync(`./uploads/${factura}`)) return;
+
+
+    await ftp.connect({
+        host: 'tuvansa-server.dyndns.org',
+        user: 'administrador',
+        password: '912522Pop'
+    });
+
+    
+
 
     const stream = await ftp.get(`/ANEXOS/RECEPCIONES/${factura}`)
 

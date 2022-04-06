@@ -1,11 +1,11 @@
 const { QueryTypes } = require("sequelize")
 const { sequelize } = require("../database/config");
-const { isConnect } = require("../ftp/connection");
+
 const { getListRecepciones } = require("../helpers/getListRecepciones");
 
 const path = require('path');
 const { downloadPdf, cleanPdf } = require("../helpers/downloadPdf");
-const { Console } = require("console");
+
 
 const controller = {}
 
