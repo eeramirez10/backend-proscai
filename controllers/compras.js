@@ -1,5 +1,6 @@
 const { QueryTypes } = require("sequelize")
 const { sequelize } = require("../database/config");
+const fs = require('fs');
 
 const { getListRecepciones } = require("../helpers/getListRecepciones");
 
@@ -28,10 +29,6 @@ controller.getXML = async (req, res) => {
 
     const { limit, offset } = getPagination(page, size);
 
-
-    console.log(search)
-
-    
     const like = search ? 'AND DNUM  LIKE :search' : '';
 
     let xml = await sequelize.query(`
@@ -52,7 +49,7 @@ controller.getXML = async (req, res) => {
     
     `,
         {
-            replacements: { offset, limit, search:`%${search.toUpperCase()}%` },
+            replacements: { offset, limit, search:`${search}%` },
 
             type: QueryTypes.SELECT
         }
@@ -82,7 +79,7 @@ controller.getXML = async (req, res) => {
         data: {
             total: count.total,
             rows: xml,
-            total_page:!xml || xml.length > 0 ? Math.ceil(xml.length / limit) : 0,
+            total_page:xml.length > 0 ? Math.ceil(xml.length / limit) : 0,
             page,
             per_page: limit
         }
@@ -96,7 +93,13 @@ controller.getPdf = async (req, res) => {
 
     const { factura } = req.params;
 
-    await downloadPdf(factura);
+    
+
+    if (!fs.existsSync(`./uploads/${factura}`)){ 
+        await downloadPdf(factura);
+    
+    
+    }
 
 
     res.sendFile(path.join(__dirname, `../uploads/${factura}`));
