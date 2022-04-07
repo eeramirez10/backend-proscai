@@ -72,7 +72,7 @@ controller.getXML = async (req, res) => {
         xml = await getListRecepciones(xml)
 
     }
-    
+
 
     res.json({
         ok: true,
