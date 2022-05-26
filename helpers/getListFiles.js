@@ -29,7 +29,7 @@ const getListFiles = async (items, path,fileName) => {
                 }
             })
         )
-        ftp.end()
+       await ftp.end();
     
         return list
         
