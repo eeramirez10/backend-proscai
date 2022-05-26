@@ -14,7 +14,7 @@ const getListFiles = async (items, path,fileName) => {
 
         console.log(await ftp.getConnectionStatus())
 
-        if(await ftp.getConnectionStatus() ==='connected') {
+        if(await ftp.getConnectionStatus() ==='connected' || await ftp.getConnectionStatus() ==='connecting' ) {
             await ftp.end();
         }
 
