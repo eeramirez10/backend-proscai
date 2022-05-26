@@ -12,6 +12,12 @@ const getListFiles = async (items, path,fileName) => {
 
     try {
 
+        console.log(await ftp.getConnectionStatus())
+
+        if(await ftp.getConnectionStatus() ==='connected') {
+            await ftp.end();
+        }
+
         await ftp.connect({
             host:'tuvansa-server.dyndns.org',
             user:'administrador',

@@ -69,11 +69,17 @@ const getListRecepciones = async (xmls) => {
 
     try {
 
+        console.log(await ftp.getConnectionStatus())
+
+        if(await ftp.getConnectionStatus() ==='connected') {
+            await ftp.end();
+        }
+
         await ftp.connect({
             host:'tuvansa-server.dyndns.org',
             user:'administrador',
             password:'912522Pop'
-        });
+        })
     
         const list = await Promise.all(
             xmls.map(async xml => {
