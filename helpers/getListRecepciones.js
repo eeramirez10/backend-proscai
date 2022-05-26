@@ -15,17 +15,17 @@ const ftp = new PromiseFtp();
 //         password:'912522Pop'
 //     })
 
-    
-//     console.log(xmls)
-    
 
-    
+//     console.log(xmls)
+
+
+
 //     if( xmls.length === 0) return []
 
 //     EventEmitter.setMaxListeners(xmls.length + 1)
 
 
-   
+
 
 
 //     const list = await Promise.all(
@@ -33,7 +33,7 @@ const ftp = new PromiseFtp();
 
 //             const [file] =  await ftp.list(`/ANEXOS/RECEPCIONES/${xml.factura}.pdf`)
 
-            
+
 
 //             return {
 //                 ...xml,
@@ -41,7 +41,7 @@ const ftp = new PromiseFtp();
 //             }
 //         })
 
-       
+
 
 //     )
 
@@ -50,7 +50,7 @@ const ftp = new PromiseFtp();
 //     ftp.end()
 
 
-    
+
 
 //     return list
 
@@ -62,8 +62,8 @@ const ftp = new PromiseFtp();
 
 
 const getListRecepciones = async (xmls) => {
-    
-    
+
+
 
     EventEmitter.setMaxListeners(xmls.length + 3)
 
@@ -71,20 +71,21 @@ const getListRecepciones = async (xmls) => {
 
         console.log(await ftp.getConnectionStatus())
 
-        if(await ftp.getConnectionStatus() ==='connected') {
-            await ftp.end();
+        if (await ftp.getConnectionStatus() === 'not yet connected') {
+
+            await ftp.connect({
+                host: 'tuvansa-server.dyndns.org',
+                user: 'administrador',
+                password: '912522Pop'
+            })
         }
 
-        await ftp.connect({
-            host:'tuvansa-server.dyndns.org',
-            user:'administrador',
-            password:'912522Pop'
-        })
-    
+
+
         const list = await Promise.all(
             xmls.map(async xml => {
-    
-                const [file] =  await ftp.list(`/ANEXOS/RECEPCIONES/${xml.factura}.pdf`)
+
+                const [file] = await ftp.list(`/ANEXOS/RECEPCIONES/${xml.factura}.pdf`)
 
                 return {
                     ...xml,
@@ -92,10 +93,10 @@ const getListRecepciones = async (xmls) => {
                 }
             })
         )
-        await ftp.end()
-    
+
+
         return list
-        
+
     } catch (error) {
         console.log(error)
     }

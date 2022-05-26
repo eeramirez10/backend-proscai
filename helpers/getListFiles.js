@@ -6,6 +6,8 @@ const PromiseFtp = require('promise-ftp');
 
 const ftp = new PromiseFtp();
 
+
+
 const getListFiles = async (items, path,fileName) => {
 
     EventEmitter.setMaxListeners(items.length + 3);
@@ -14,15 +16,15 @@ const getListFiles = async (items, path,fileName) => {
 
         console.log(await ftp.getConnectionStatus())
 
-        if(await ftp.getConnectionStatus() ==='connected' || await ftp.getConnectionStatus() ==='connecting' ) {
-            await ftp.end();
+        if (await ftp.getConnectionStatus() === 'not yet connected') {
+
+            await ftp.connect({
+                host: 'tuvansa-server.dyndns.org',
+                user: 'administrador',
+                password: '912522Pop'
+            })
         }
 
-        await ftp.connect({
-            host:'tuvansa-server.dyndns.org',
-            user:'administrador',
-            password:'912522Pop'
-        });
     
         const list = await Promise.all(
             items.map(async item => {
@@ -35,7 +37,7 @@ const getListFiles = async (items, path,fileName) => {
                 }
             })
         )
-       await ftp.end();
+       
     
         return list
         
