@@ -1,7 +1,3 @@
-
-
-
-
 const PromiseFtp = require('promise-ftp');
 
 const ftp = new PromiseFtp();
@@ -9,8 +5,8 @@ const ftp = new PromiseFtp();
 const fs = require('fs');
 
 
-const downloadPdf = async (factura) => {
-    
+const downloadPdf = async (fileName, path) => {
+
     await ftp.connect({
         host: 'tuvansa-server.dyndns.org',
         user: 'administrador',
@@ -18,9 +14,9 @@ const downloadPdf = async (factura) => {
     });
 
 
-    const stream = await ftp.get(`/ANEXOS/RECEPCIONES/${factura}`)
+    const stream = await ftp.get(`/ANEXOS/${path}/${fileName}`)
 
-    await descarga(stream, factura)
+    await descarga(stream,path, fileName)
 
     await ftp.end()
 
@@ -35,12 +31,13 @@ const cleanPdf = (file) => {
 
 }
 
-const descarga = (stream, name) =>
+const descarga = (stream,path, name) => (
     new Promise((resolve, reject) => {
         stream.once('close', resolve);
         stream.once('error', reject);
-        stream.pipe(fs.createWriteStream(`uploads/${name}`));
+        stream.pipe(fs.createWriteStream(`uploads/${path}/${name}`));
     })
+)
 
 module.exports = {
     downloadPdf,

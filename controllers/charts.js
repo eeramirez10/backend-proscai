@@ -7,6 +7,8 @@ const mapSucursalesLineChart = require("../helpers/mapSucursalesLineChart");
 
 controller.ventasSucursales = async (req, res) => {
 
+
+
     let sucursalesDB = await sequelize.query(`
     SELECT 
     IF( 
@@ -47,6 +49,21 @@ controller.ventasSucursales = async (req, res) => {
 
 controller.ventasVendedores = async (req,res) => {
 
+    // console.log(req.query)
+
+    const {sucursal} = req.query;
+
+    const sucursales = {
+        mexico:01,
+        monterrey:02,
+        veracruz:03,
+        mexicali:04,
+        queretaro:05,
+        cacun:06,
+
+    }
+
+
     let vendedoresDB = await sequelize.query(`
         SELECT  
         AGCIANAME as nombre,
@@ -64,14 +81,15 @@ controller.ventasVendedores = async (req,res) => {
         DFECHA>='2022-03-01' AND 
         DFECHA<='2022-03-31' AND 
         DESFACT=1 AND  
-        DMULTICIA = 01 AND 
+        DMULTICIA = :sucursal AND 
         DSTATUSCFD = 3  AND 
         ( mid(DNUM,1,2) <> 'AF' AND 
-        mid(DNUM,1,2) <> 'AN')
+        mid(DNUM,1,2) <> 'AN' AND mid(DNUM,1,2)<>'CT') 
+        
         GROUP BY AGDESCR ORDER BY venta_neta desc
     `, {
        
-
+        replacements: { sucursal : sucursales[sucursal] ? sucursales[sucursal] : 01  },
         type: QueryTypes.SELECT
     })
 

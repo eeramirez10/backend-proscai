@@ -8,7 +8,7 @@ const app = require('express').Router();
 
 app.get('/xml', getXML)
 
-app.get('/pdf/:factura', getPdf)
+app.get('/pdf/:pdf', getPdf)
 
 app.post('/xml/upload',uploadFile, uploadXml)
 

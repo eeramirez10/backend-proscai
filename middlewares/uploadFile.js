@@ -5,16 +5,28 @@ const multer = require('multer')
 const FTPStorage = require('multer-ftp');
 
 const upload = multer({
-    fileFilter: (req, file, cb) =>
-        (file.mimetype !== 'application/pdf')
-            ? cb('Archivo no permitido')
-            : cb(null, true)
+    fileFilter: (req, file, cb) =>{
+
+        // console.log(file)
+
+       return  (file.mimetype !== 'application/pdf')
+        ? cb('Archivo no permitido')
+        : cb(null, true)
+    }
+  
     ,
 
     storage: new FTPStorage({
 
-        basepath: '/ANEXOS/RECEPCIONES',
-        destination: (req, file, options, cb) => cb(null, path.join(options.basepath, file.originalname))
+        basepath: '/ANEXOS',
+        destination: (req, file, options, cb) => {
+
+            // console.log(`${options.basepath}/${req.params.path}`)
+
+           return cb(null, path.join(`${options.basepath}/${req.params.path}` , `${req.params.name}.pdf`))
+
+        }
+       
         ,
 
         ftp: {

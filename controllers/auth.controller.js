@@ -71,7 +71,7 @@ controller.login = async (req, res) => {
 
     const { email:emailUsername, password } = req.body;
 
-    console.log(req.body)
+    // console.log(req.body)
     try {
 
         const [user] = await UserModel.findAll({

@@ -22,6 +22,10 @@ app.use('/api/compras', require('./routes/compras.routes'));
 app.use('/api/charts', require('./routes/charts.routes'));
 app.use('/api/auth', require('./routes/auth.routes'));
 
+app.use('/api/embarques', require('./routes/embarques.routes'));
+
+app.use('/api/files', require('./routes/files.routes'))
+
 
 app.listen(process.env.PORT,() =>{
     console.log(`Server on port ${process.env.PORT}`);

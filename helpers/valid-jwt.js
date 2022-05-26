@@ -18,7 +18,7 @@ const validJWT = (req, res, next) => {
         //aqui se guarda el usuario que inicia sesion
         req.user = user;
 
-        console.log(req.user);
+        // console.log(req.user);
         next();
 
     } catch (error) {

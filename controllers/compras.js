@@ -49,7 +49,7 @@ controller.getXML = async (req, res) => {
     
     `,
         {
-            replacements: { offset, limit, search:`${search}%` },
+            replacements: { offset, limit, search:`${search.toUpperCase().trim()}%` },
 
             type: QueryTypes.SELECT
         }
@@ -108,8 +108,8 @@ controller.getPdf = async (req, res) => {
 
 controller.uploadXml = ( req, res) => {
 
-    console.log(req.files)
-    console.log(req.file)
+    // console.log(req.files)
+    // console.log(req.file)
 
 
     res.json({
