@@ -86,7 +86,7 @@ const getListRecepciones = async (xmls) => {
                 }
             })
         )
-        ftp.end()
+        await ftp.end()
     
         return list
         
