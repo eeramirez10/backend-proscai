@@ -97,7 +97,7 @@ const getListRecepciones = async (xmls) => {
         
 
 
-        return list
+        return xmls
 
     } catch (error) {
         console.log(error)
