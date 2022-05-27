@@ -65,7 +65,7 @@ const getListRecepciones = async (xmls) => {
 
 
 
-    EventEmitter.setMaxListeners(xmls.length + 3)
+    EventEmitter.setMaxListeners(xmls.length + 14)
 
     try {
 
@@ -94,7 +94,7 @@ const getListRecepciones = async (xmls) => {
             })
         )
 
-        console.log(list)
+        
 
 
         return list

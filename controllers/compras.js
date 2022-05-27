@@ -73,6 +73,8 @@ controller.getXML = async (req, res) => {
 
     }
 
+    console.log(xml);
+
 
     res.json({
         ok: true,
