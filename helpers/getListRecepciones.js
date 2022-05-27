@@ -94,6 +94,8 @@ const getListRecepciones = async (xmls) => {
             })
         )
 
+        console.log(list)
+
 
         return list
 
