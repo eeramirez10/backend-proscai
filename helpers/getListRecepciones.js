@@ -69,9 +69,11 @@ const getListRecepciones = async (xmls) => {
 
     try {
 
-        console.log(await ftp.getConnectionStatus())
 
-        if (await ftp.getConnectionStatus() === 'not yet connected') {
+
+        if (ftp.getConnectionStatus() === 'not yet connected') {
+
+            console.log(await ftp.getConnectionStatus())
 
             await ftp.connect({
                 host: 'tuvansa-server.dyndns.org',
@@ -81,20 +83,29 @@ const getListRecepciones = async (xmls) => {
         }
 
 
+        if (ftp.getConnectionStatus() === 'connected') {
 
-        const list = await Promise.all(
-            xmls.map(async xml => {
+            console.log(await ftp.getConnectionStatus())
 
-                const [file] = await ftp.list(`/ANEXOS/RECEPCIONES/${xml.factura}.pdf`)
+            const list = await Promise.all(
+                xmls.map(async xml => {
 
-                return {
-                    ...xml,
-                    pdf: file ? file.name : ''
-                }
-            })
-        )
+                    const [file] = await ftp.list(`/ANEXOS/RECEPCIONES/${xml.factura}.pdf`, false);
 
-        
+                    // console.log(file)
+
+                    return {
+                        ...xml,
+                        pdf: file ? file.name : ''
+                    }
+                })
+            )
+
+            return list;
+
+
+        }
+
 
 
         return xmls

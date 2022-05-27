@@ -67,13 +67,13 @@ controller.getXML = async (req, res) => {
     );
 
    
-    // if(xml.length > 0){
+    if(xml.length > 0){
 
-    //     xml = await getListRecepciones(xml)
+        xml = await getListRecepciones(xml)
 
-    // }
+    }
 
-    console.log(xml);
+    // console.log(xml);
 
 
     res.json({
