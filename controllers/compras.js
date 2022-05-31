@@ -6,6 +6,7 @@ const { getListRecepciones } = require("../helpers/getListRecepciones");
 
 const path = require('path');
 const { downloadPdf, cleanPdf } = require("../helpers/downloadPdf");
+const { Console } = require("console");
 
 
 const controller = {}
@@ -31,6 +32,8 @@ controller.getXML = async (req, res) => {
 
     const like = search ? 'AND DNUM  LIKE :search' : '';
 
+    console.log(like)
+
     let xml = await sequelize.query(`
         SELECT 
             DFECHA fecha,
@@ -49,11 +52,13 @@ controller.getXML = async (req, res) => {
     
     `,
         {
-            replacements: { offset, limit, search:`${search.toUpperCase().trim()}%` },
+            replacements: { offset, limit, search:`%${search.toUpperCase().trim()}%` },
 
             type: QueryTypes.SELECT
         }
-    )
+    );
+
+    
 
     const [count] = await sequelize.query(`
         SELECT 
