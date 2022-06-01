@@ -35,7 +35,7 @@ const embarques = async (req, res) => {
         SELECT 
         DNUM factura,
         DTALON remision,
-        CAST(mid(DRUTA,1,POSITION("." IN DRUTA)-1) AS CHAR) AS ruta,
+        CAST(mid(DRUTA,1,POSITION("." IN DRUTA)-1) AS CHAR)  ruta,
         DRUTA druta,
         DFECHA fecha,
         CLICOD codigoCliente,
@@ -49,14 +49,15 @@ const embarques = async (req, res) => {
         LEFT JOIN FCLI ON FCLI.CLISEQ=FDOC.CLISEQ
         LEFT JOIN FAG AS AG1 ON AG1.AGTNUM=FDOC.DPAR1
         WHERE DESFACT=1 AND mid(DNUM,1,1)='F' AND DMULTICIA='01' AND DFECHA>='2022-01-01' 
-        ${like}
+        
         GROUP BY RUTA
+        ${like}
         ORDER BY DFECHA DESC ,DRUTA,DNUM
         limit :offset, :limit
     
     `,
         {
-            replacements: { offset, limit, search: `${search}%` },
+            replacements: { offset, limit, search: `%${search}%` },
             type: QueryTypes.SELECT
         }
     );
